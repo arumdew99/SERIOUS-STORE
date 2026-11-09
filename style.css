@@ -822,19 +822,32 @@ a {
    TAMBAHAN UNTUK FITUR DETAIL PRODUK & HOVER CARD
    ========================================================= */
 
-/* Membuat efek terangkat dan bayangan saat card produk di-hover */
-.product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    /* Pastikan ada border atau shadow dasar jika belum ada di CSS lama Anda */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+
+.product-info {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Mengisi sisa ruang kosong di dalam card */
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+.product-info h3 {
+    margin-bottom: 8px;
+    font-size: 17px;
+    line-height: 1.3;
+}
+
+.product-info p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 15px;
+    flex-grow: 1; /* Mendorong elemen harga ke paling bawah */
+}
+
+.product-info strong {
+    display: block;
+    color: var(--green);
+    font-size: 17px;
+    margin-top: auto; /* Memastikan harga sejajar di bawah, berapapun panjang deskripsinya */
 }
 
 /* Styling untuk gambar produk di halaman utama agar seragam */
