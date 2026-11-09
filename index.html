@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERIOUS STORE</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <a href="index.html" class="logo">SERIOUS STORE</a>
+
+    <nav>
+        <a href="#home">Beranda</a>
+        <a href="#products">Produk</a>
+
+        <a href="admin.html" id="adminDashboardLink" hidden>
+            Dashboard Admin
+        </a>
+
+        <button id="historyButton" class="nav-button">
+            Riwayat Pesanan
+        </button>
+
+        <button id="cartButton" class="nav-button">
+            Keranjang (<span id="cartCount">0</span>)
+        </button>
+    </nav>
+
+    <div id="loginButton">
+        <button class="primary-button" id="openLoginButton">Login</button>
+    </div>
+
+    <div id="userProfile" class="user-profile" hidden>
+        <button id="profileButton" class="profile-button">
+            <span id="userInitial">U</span>
+            <span id="userName">Pengguna</span>
+        </button>
+
+        <div id="profileDropdown" class="profile-dropdown" hidden>
+            <div class="profile-info">
+                <span id="userInitialLarge">U</span>
+                <div>
+                    <strong id="profileName">Pengguna</strong>
+                    <p id="profileEmail"></p>
+                </div>
+            </div>
+
+            <p id="profileRole">Pelanggan</p>
+            <button id="userLogoutButton">Logout</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="hero" id="home">
+        <div>
+            <p class="hero-label">WELCOME TO SERIOUS STORE</p>
+            <h1>Temukan Fashion Thrift Favoritmu</h1>
+            <p>
+                Pilihan fashion thrift berkualitas dengan harga terjangkau.
+                Temukan produk favoritmu sekarang.
+            </p>
+            <a href="#products" class="primary-button">Belanja Sekarang</a>
+        </div>
+    </section>
+
+    <section class="products-section" id="products">
+        <div class="section-heading">
+            <p>OUR COLLECTION</p>
+            <h2>Daftar Produk</h2>
+        </div>
+
+        <div id="productList" class="product-grid">
+            <p>Memuat produk...</p>
+        </div>
+    </section>
+</main>
+
+<!-- MODAL LOGIN DAN REGISTER -->
+<div id="authModal" class="modal" hidden>
+    <div class="modal-content">
+        <button type="button" class="close-button" id="closeAuthButton" aria-label="Tutup">×</button>
+
+        <h2 id="authTitle">Login</h2>
+
+        <form id="authForm">
+            <div id="registerNameField" hidden>
+                <label for="registerName">Nama Lengkap</label>
+                <input id="registerName" type="text">
+            </div>
+
+            <label for="authEmail">Email</label>
+            <input id="authEmail" type="email" required>
+
+            <label for="authPassword">Password</label>
+            <input id="authPassword" type="password" required>
+
+            <button type="submit" class="primary-button" id="authSubmitButton">
+                Login
+            </button>
+        </form>
+
+        <p id="authMessage"></p>
+
+        <p class="auth-switch">
+            <span id="authSwitchText">Belum punya akun?</span>
+            <button id="authSwitchButton" type="button">Daftar</button>
+        </p>
+    </div>
+</div>
+
+<!-- MODAL KERANJANG -->
+<div id="cartModal" class="modal" hidden>
+    <div class="modal-content">
+        <button type="button" class="close-button" id="closeCartButton" aria-label="Tutup">×</button>
+
+        <h2>Keranjang Belanja</h2>
+
+        <div id="cartItems"></div>
+
+        <div class="cart-total">
+            <strong>Total:</strong>
+            <strong id="cartTotal">Rp0</strong>
+        </div>
+
+        <button id="checkoutButton" class="primary-button">
+            Lanjut Checkout
+        </button>
+    </div>
+</div>
+
+<!-- MODAL CHECKOUT -->
+<div id="checkoutModal" class="modal" hidden>
+    <div class="modal-content">
+        <button type="button" class="close-button" id="closeCheckoutButton" aria-label="Tutup">×</button>
+
+        <h2>Alamat Pengiriman</h2>
+
+        <form id="shippingForm">
+            <label for="shippingName">Nama Penerima</label>
+            <input id="shippingName" type="text" required>
+
+            <label for="shippingPhone">Nomor HP</label>
+            <input id="shippingPhone" type="tel" required>
+
+            <label for="shippingAddress">Alamat Lengkap</label>
+            <textarea id="shippingAddress" required></textarea>
+
+            <label for="shippingCity">Kota/Kabupaten</label>
+            <input id="shippingCity" type="text" required>
+
+            <label for="shippingPostalCode">Kode Pos</label>
+            <input id="shippingPostalCode" type="text" required>
+
+            <label for="shippingNotes">Catatan Pengiriman</label>
+            <textarea id="shippingNotes"></textarea>
+
+            <button type="submit" class="primary-button">
+                Lanjut ke Pembayaran
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL PEMBAYARAN -->
+<div id="paymentModal" class="modal" hidden>
+    <div class="modal-content">
+        <button type="button" class="close-button" id="closePaymentButton" aria-label="Tutup">×</button>
+
+        <h2>Pembayaran</h2>
+
+        <p>Total Pembayaran:</p>
+        <h2 id="paymentTotal">Rp0</h2>
+        <p id="paymentCountdown" class="payment-countdown"></p>
+
+        <label for="paymentMethod">Metode Pembayaran</label>
+        <select id="paymentMethod" required>
+            <option value="">Pilih metode pembayaran</option>
+            <option value="Transfer Bank">Transfer Bank</option>
+            <option value="QRIS">QRIS</option>
+            <option value="E-Wallet">E-Wallet</option>
+        </select>
+
+        <!-- INFORMASI QRIS -->
+        <div id="qrisContainer" hidden>
+            <h3>Pembayaran QRIS</h3>
+
+            <img
+                src="./qris-demo.png"
+                alt="QRIS Demo"
+                class="qris-image"
+            >
+
+            <p>
+                Gambar ini hanya simulasi dan bukan kode pembayaran aktif.
+            </p>
+        </div>
+
+        <!-- INFORMASI TRANSFER BANK -->
+        <div id="transferInfo" hidden>
+            <h3>Transfer Bank</h3>
+            <p>Silakan pilih bank untuk melihat kode pembayaran simulasi.</p>
+        </div>
+
+        <!-- INFORMASI E-WALLET -->
+        <div id="ewalletInfo" hidden>
+            <h3>E-Wallet</h3>
+            <p>Silakan pilih penyedia E-Wallet untuk melihat kode pembayaran simulasi.</p>
+        </div>
+
+        <!-- PILIH BANK / E-WALLET -->
+        <div id="providerField" hidden>
+            <label id="providerLabel" for="paymentProvider">
+                Pilih Bank
+            </label>
+
+            <select id="paymentProvider">
+                <option value="">Pilih penyedia pembayaran</option>
+            </select>
+        </div>
+
+        <!-- KODE PEMBAYARAN -->
+        <div id="paymentCodeBox" hidden>
+            <h3 id="paymentCodeTitle">Kode Pembayaran</h3>
+
+            <label id="paymentCodeLabel" for="paymentCode">
+                Nomor Pembayaran
+            </label>
+
+            <div class="payment-code-row">
+                <input
+                    id="paymentCode"
+                    type="text"
+                    readonly
+                >
+
+                <button type="button" id="copyCodeButton">
+                    Salin
+                </button>
+            </div>
+
+            <p>
+                Kode ini hanya digunakan untuk simulasi prototype.
+                Tidak dapat digunakan untuk transaksi sungguhan.
+            </p>
+        </div>
+
+        <label for="paymentReference">
+            Nomor Referensi Pembayaran
+        </label>
+
+        <input
+            id="paymentReference"
+            type="text"
+            placeholder="Masukkan nomor referensi jika ada"
+        >
+
+        <button
+            type="button"
+            id="confirmPaymentButton"
+            class="primary-button"
+        >
+            Saya Sudah Membayar
+        </button>
+
+        <p id="paymentMessage"></p>
+    </div>
+</div>
+
+<!-- MODAL RIWAYAT PESANAN -->
+<div id="historyModal" class="modal" hidden>
+    <div class="modal-content history-content">
+        <button type="button" class="close-button" id="closeHistoryButton" aria-label="Tutup">×</button>
+
+        <h2>Riwayat Transaksi</h2>
+
+        <div id="historyList">
+            <p>Memuat riwayat transaksi...</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL STRUK -->
+<div id="receiptModal" class="modal" hidden>
+    <div class="modal-content">
+        <button type="button" class="close-button" id="closeReceiptButton" aria-label="Tutup">×</button>
+
+        <div id="receiptContent"></div>
+
+        <button type="button" id="printReceiptButton" class="primary-button">
+            Cetak Struk
+        </button>
+
+        <button type="button" id="closeReceiptBottomButton" class="secondary-button">
+            Tutup
+        </button>
+    </div>
+</div>
+
+<script type="module" src="./app.js"></script>
+
+</body>
+</html>

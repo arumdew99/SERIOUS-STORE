@@ -1,0 +1,819 @@
+/* =========================================
+   SERIOUS STORE - MAIN STYLE
+========================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --green: #176b42;
+    --green-dark: #105332;
+    --green-light: #eaf5ed;
+    --text: #26352c;
+    --muted: #748078;
+    --border: #e1e9e3;
+    --white: #ffffff;
+    --background: #f7faf7;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.6;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+    width: 100%;
+    min-height: 75px;
+    padding: 15px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--green);
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.navbar nav a {
+    font-size: 14px;
+    color: var(--text);
+}
+
+.navbar nav a:hover {
+    color: var(--green);
+}
+
+.nav-button {
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+}
+
+.nav-button:hover {
+    color: var(--green);
+}
+
+.primary-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.primary-button:hover {
+    background: var(--green-dark);
+}
+
+.primary-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Tombol kembali ke dashboard admin */
+
+#adminDashboardLink {
+    color: #176b42;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+#adminDashboardLink:hover {
+    background-color: #e8f5ed;
+    color: #105332;
+}
+
+#adminDashboardLink[hidden] {
+    display: none !important;
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.user-profile {
+    position: relative;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: white;
+    padding: 7px 12px;
+    color: var(--text);
+}
+
+#userInitial,
+#userInitialLarge {
+    display: inline-flex;
+    width: 34px;
+    height: 34px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-weight: bold;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 260px;
+    padding: 18px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    z-index: 200;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-info p {
+    font-size: 12px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+
+#profileRole {
+    margin: 12px 0;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: bold;
+}
+
+#userLogoutButton {
+    width: 100%;
+    padding: 9px;
+    border: none;
+    border-radius: 6px;
+    background: #fceaea;
+    color: #b93636;
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    min-height: 430px;
+    padding: 80px 9%;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(110deg, #eaf5ed, #ffffff);
+}
+
+.hero > div {
+    max-width: 650px;
+}
+
+.hero-label {
+    color: var(--green);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 55px);
+    line-height: 1.2;
+    margin-bottom: 18px;
+    color: #183d29;
+}
+
+.hero p:not(.hero-label) {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+/* =========================================
+   PRODUCTS
+========================================= */
+
+.products-section {
+    padding: 65px 7%;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-heading p {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    font-size: 30px;
+    margin-top: 5px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    overflow: hidden;
+    transition: 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+}
+
+.product-card img,
+.product-placeholder {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.product-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--green-light);
+    color: var(--green);
+    font-weight: bold;
+}
+
+.product-info {
+    padding: 16px;
+}
+
+.product-info h3 {
+    margin-bottom: 5px;
+    font-size: 17px;
+}
+
+.product-info p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.product-info strong {
+    display: block;
+    color: var(--green);
+    margin: 12px 0;
+}
+
+.product-info button {
+    width: 100%;
+}
+
+/* =========================================
+   PANDUAN UKURAN
+========================================= */
+
+.size-guide {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.size-guide-card {
+    width: 100%;
+    background: #f3f8f4;
+    border: 1px solid #d6e8da;
+    border-radius: 10px;
+    padding: 14px;
+}
+
+.product-info .size-guide-card h4 {
+    margin: 0 0 12px;
+    color: #176b42;
+    font-size: 14px;
+}
+
+.size-guide-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #dce8df;
+    font-size: 13px;
+}
+
+.size-guide-row:last-child {
+    border-bottom: none;
+}
+
+.size-guide-row span {
+    color: #555;
+}
+
+.product-info .size-guide-row strong {
+    display: inline;
+    margin: 0;
+    color: #176b42;
+    white-space: nowrap;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal[hidden] {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.65);
+    overflow-y: auto;
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 28px;
+    margin: auto;
+    background: white;
+    color: var(--text);
+    border-radius: 14px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+    margin-bottom: 18px;
+    color: var(--text);
+}
+
+.close-button {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 27px;
+    color: #333;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #c33;
+}
+
+/* Tingkatan modal */
+
+#checkoutModal {
+    z-index: 1002;
+}
+
+#paymentModal {
+    z-index: 1005;
+}
+
+#receiptModal {
+    z-index: 1010;
+}
+
+#authModal {
+    z-index: 1020;
+}
+
+/* =========================================
+   AUTH FORM
+========================================= */
+
+#authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#authForm label,
+#shippingForm label,
+#paymentModal label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#authForm input,
+#shippingForm input,
+#shippingForm textarea,
+#paymentMethod,
+#paymentProvider,
+#paymentReference {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d7e2d9;
+    border-radius: 7px;
+    outline: none;
+}
+
+#authForm input:focus,
+#shippingForm input:focus,
+#shippingForm textarea:focus,
+#paymentMethod:focus,
+#paymentProvider:focus,
+#paymentReference:focus {
+    border-color: var(--green);
+}
+
+#authForm button {
+    margin-top: 10px;
+}
+
+.auth-switch {
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+#authSwitchButton {
+    border: none;
+    background: transparent;
+    color: var(--green);
+    font-weight: bold;
+}
+
+/* =========================================
+   CHECKOUT
+========================================= */
+
+#shippingForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#shippingForm textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+#shippingForm button {
+    margin-top: 10px;
+}
+
+/* =========================================
+   CART
+========================================= */
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.cart-item p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.cart-actions button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+#checkoutButton {
+    width: 100%;
+}
+
+/* =========================================
+   PAYMENT
+========================================= */
+
+#paymentTotal {
+    color: var(--green);
+}
+
+#paymentMethod,
+#paymentProvider,
+#paymentReference {
+    margin: 8px 0 15px;
+}
+
+#confirmPaymentButton {
+    width: 100%;
+    margin-top: 15px;
+}
+
+#qrisContainer,
+#transferInfo,
+#ewalletInfo,
+#paymentCodeBox {
+    margin: 15px 0;
+    padding: 15px;
+    background: var(--green-light);
+    border-radius: 8px;
+}
+
+#qrisContainer p,
+#transferInfo p,
+#ewalletInfo p,
+#paymentCodeBox p {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.payment-code-row {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.payment-code-row input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #d7e2d9;
+    border-radius: 7px;
+}
+
+.payment-code-row button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 7px;
+    background: var(--green);
+    color: white;
+}
+
+.qris-image {
+    display: block;
+    width: 200px;
+    max-width: 100%;
+    margin: 15px auto;
+}
+
+/* =========================================
+   HISTORY
+========================================= */
+
+.history-content {
+    max-width: 650px;
+}
+
+.history-card {
+    padding: 16px;
+    margin: 15px 0;
+    background: #f8fbf8;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+}
+
+.history-card h3 {
+    color: var(--green);
+    margin-bottom: 10px;
+}
+
+.history-card p {
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.tracking-line {
+    padding: 12px;
+    margin-top: 12px;
+    background: var(--green-light);
+    border-radius: 7px;
+}
+
+.refund-button {
+    padding: 9px 15px;
+    margin-top: 10px;
+    background: #d94b4b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+/* =========================================
+   RECEIPT
+========================================= */
+
+.receipt {
+    padding: 15px;
+    border: 1px dashed #8da998;
+    line-height: 1.7;
+}
+
+.receipt h2 {
+    color: var(--green);
+    text-align: center;
+}
+
+.receipt > p:first-of-type {
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+#receiptModal .primary-button {
+    width: 100%;
+    margin-top: 18px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .navbar {
+        padding: 15px 4%;
+    }
+}
+
+@media (max-width: 750px) {
+    .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar nav {
+        width: 100%;
+        gap: 13px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hero {
+        padding: 60px 7%;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        padding: 10px;
+    }
+
+    .modal-content {
+        padding: 23px 18px;
+    }
+
+    .cart-item {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .profile-dropdown {
+        right: -40px;
+    }
+}
+
+/* Tombol Tutup di bawah struk */
+.secondary-button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: white;
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.secondary-button:hover {
+    background: var(--green-light);
+}
+
+/* Tombol batalkan pesanan */
+.cancel-button {
+    padding: 9px 15px;
+    margin-top: 10px;
+    margin-right: 8px;
+    background: #fff;
+    color: #d94b4b;
+    border: 1px solid #d94b4b;
+    border-radius: 6px;
+}
+
+.cancel-button:hover {
+    background: #fceaea;
+}
+
+.cancel-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Hitung mundur hold pembayaran */
+.payment-countdown {
+    margin: 4px 0 14px;
+    padding: 8px 12px;
+    background: #fff8e6;
+    border: 1px solid #f1e0a8;
+    border-radius: 7px;
+    color: #8a6100;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.payment-countdown:empty {
+    display: none;
+}
