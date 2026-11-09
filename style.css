@@ -326,6 +326,14 @@ a {
     margin-bottom: 8px;
 }
 
+.product-info label{
+    margin: 5px;
+}
+
+.product-info select{
+    margin: 10px;
+}
+
 .product-info strong {
     display: block;
     color: var(--green);
