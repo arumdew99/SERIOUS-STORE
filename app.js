@@ -197,7 +197,8 @@ const modalIds = [
     "checkoutModal",
     "paymentModal",
     "historyModal",
-    "receiptModal"
+    "receiptModal",
+    "productModal"
 ];
 
 const orderStatusLabels = {
