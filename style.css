@@ -817,3 +817,63 @@ a {
 .payment-countdown:empty {
     display: none;
 }
+
+/* =========================================================
+   TAMBAHAN UNTUK FITUR DETAIL PRODUK & HOVER CARD
+   ========================================================= */
+
+/* Membuat efek terangkat dan bayangan saat card produk di-hover */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    /* Pastikan ada border atau shadow dasar jika belum ada di CSS lama Anda */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+}
+
+/* Styling untuk gambar produk di halaman utama agar seragam */
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* Tampilan Placeholder jika produk tidak punya gambar */
+.product-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #f5f5f5;
+    color: #bbb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    letter-spacing: 1px;
+}
+
+/* Styling khusus untuk layout di dalam Modal Detail Produk */
+.product-detail-view img {
+    max-height: 350px;
+    object-fit: contain; /* Agar gambar utuh dan tidak terpotong di dalam pop-up */
+    background-color: #fafafa;
+    border: 1px solid #eee;
+}
+
+.product-detail-view h2 {
+    font-size: 1.5em;
+    line-height: 1.2;
+}
+
+.product-detail-view h3 {
+    font-size: 1.3em;
+    /* Sesuaikan warnanya dengan tema website Anda (misal hijau/biru) */
+    color: #176b42; 
+}
