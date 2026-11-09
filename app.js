@@ -586,6 +586,71 @@ async function loadProducts() {
     });
 }
 
+
+function openProductModal(productId) {
+    const product = products.find(item => String(item.id) === String(productId));
+    if (!product) return;
+
+    const image = product.image_url || "";
+    const soldOut = !product.in_stock;
+    const stockStatus = soldOut 
+        ? `<span style="color: red; font-weight: bold;">Habis</span>` 
+        : `<span style="color: green; font-weight: bold;">Tersedia</span>`;
+
+    // Render isi keseluruhan produk ke dalam modal
+    $("productModalContent").innerHTML = `
+        <div class="product-detail-view" style="display: flex; flex-direction: column; gap: 15px;">
+            ${
+                image
+                ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}" style="width: 100%; border-radius: 8px;">`
+                : `<div class="product-placeholder">SERIOUS STORE</div>`
+            }
+            
+            <div>
+                <h2 style="margin-bottom: 5px;">${escapeHTML(product.name)}</h2>
+                <h3 style="color: #333; margin-bottom: 10px;">${rupiah(product.price)}</h3>
+                <p><strong>Ketersediaan:</strong> ${stockStatus}</p>
+                <p style="margin-top: 10px; line-height: 1.5;">${escapeHTML(product.description || "Tidak ada deskripsi.")}</p>
+            </div>
+
+            <div>
+                <label for="size-${productId}" style="display: block; margin-bottom: 5px; font-weight: bold;">Pilih Ukuran</label>
+                <select id="size-${productId}" class="product-size" style="width: 100%; padding: 10px; margin-bottom: 10px;" ${soldOut ? "disabled" : ""}>
+                    <option value="">Pilih ukuran</option>
+                    ${getSizeOptions(product).map(size => `
+                        <option value="${escapeHTML(size)}">${escapeHTML(size)}</option>
+                    `).join("")}
+                </select>
+                <div id="sizeGuide-${productId}" class="size-guide" hidden></div>
+            </div>
+
+            <button class="primary-button" id="modalAddToCartBtn" style="width: 100%; padding: 12px; font-size: 1.1em;" ${soldOut ? "disabled" : ""}>
+                ${soldOut ? "Stok Habis" : "Tambah ke Keranjang"}
+            </button>
+        </div>
+    `;
+
+    // Aktifkan event listener untuk Panduan Ukuran
+    const sizeSelect = $("size-" + productId);
+    sizeSelect?.addEventListener("change", () => {
+        renderSizeGuide(sizeSelect.value, productId);
+    });
+
+    // Aktifkan event listener untuk tombol Tambah ke Keranjang
+    $("modalAddToCartBtn")?.addEventListener("click", () => {
+        const size = sizeSelect?.value;
+        if (!size) {
+            alert("Silakan pilih ukuran produk terlebih dahulu.");
+            return;
+        }
+        addToCart(product, size);
+        hideModal("productModal"); // Tutup pop-up otomatis setelah masuk keranjang
+    });
+
+    // Tampilkan pop-up
+    showModal("productModal");
+}
+
 // =====================================================
 // 9. KERANJANG BELANJA
 // =====================================================
