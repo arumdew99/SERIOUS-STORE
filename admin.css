@@ -1,16 +1,21 @@
+
 /* =========================================
    SERIOUS STORE - ADMIN DASHBOARD
-   Cocok dengan admin.html dan admin.js
 ========================================= */
 
 body.admin-page {
+    margin: 0;
+    min-height: 100vh;
     background: #f5f8f6;
     color: #26332c;
     font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
 }
 
-/* ---------- Navbar atas ---------- */
+.admin-page * {
+    box-sizing: border-box;
+}
+
+/* NAVBAR */
 
 .admin-navbar {
     position: sticky;
@@ -42,21 +47,15 @@ body.admin-page {
 
 .logout-button,
 #sidebarLogoutButton {
-    padding: 9px 16px;
+    padding: 10px 16px;
     background: #e85b5b;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
 }
 
-.logout-button:hover,
-#sidebarLogoutButton:hover {
-    background: #d64545;
-}
-
-/* ---------- Layout ---------- */
+/* LAYOUT */
 
 .admin-layout {
     display: grid;
@@ -72,17 +71,17 @@ body.admin-page {
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 7px;
     background: #0f3324;
 }
 
 .admin-sidebar h3 {
-    margin-bottom: 12px;
+    margin: 0 0 15px;
     padding: 0 12px;
+    color: #a8c2b3;
     font-size: 11px;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: #a8c2b3;
 }
 
 .admin-sidebar a {
@@ -99,16 +98,16 @@ body.admin-page {
 }
 
 .admin-sidebar #sidebarLogoutButton {
-    margin-top: auto;
     width: 100%;
+    margin-top: auto;
 }
 
 .admin-main {
-    padding: 32px;
     min-width: 0;
+    padding: 32px;
 }
 
-/* ---------- Judul ---------- */
+/* HEADING */
 
 .admin-heading {
     display: flex;
@@ -119,8 +118,8 @@ body.admin-page {
 }
 
 .admin-heading h1 {
-    font-size: 28px;
     margin: 4px 0 8px;
+    font-size: 28px;
 }
 
 .admin-heading p {
@@ -128,10 +127,9 @@ body.admin-page {
     font-size: 14px;
 }
 
-.admin-heading .admin-subtitle,
-.orders-heading .admin-subtitle {
-    color: #087e50;
-    font-size: 12px;
+.admin-subtitle {
+    color: #087e50 !important;
+    font-size: 12px !important;
     font-weight: bold;
     letter-spacing: 2px;
 }
@@ -143,21 +141,15 @@ body.admin-page {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    white-space: nowrap;
 }
 
-.refresh-button:hover {
-    background: #06663f;
-}
-
-/* ---------- Kartu statistik ---------- */
+/* STATISTIK */
 
 .stat-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 18px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
 }
 
 .stat-card {
@@ -169,20 +161,21 @@ body.admin-page {
 }
 
 .stat-card p {
-    margin-bottom: 12px;
-    font-size: 13px;
+    margin: 0 0 12px;
     color: #78877e;
+    font-size: 13px;
 }
 
 .stat-card h2 {
     margin: 0;
-    font-size: 30px;
     color: #087e50;
+    font-size: 30px;
 }
 
-/* ---------- Data pesanan ---------- */
+/* PESANAN */
 
 .orders-section {
+    margin-bottom: 28px;
     padding: 26px;
     background: white;
     border-radius: 12px;
@@ -190,12 +183,20 @@ body.admin-page {
 }
 
 .orders-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
 }
 
 .orders-heading h2 {
-    margin-top: 4px;
+    margin: 4px 0 8px;
     font-size: 22px;
+}
+
+.orders-heading p {
+    color: #78877e;
+    font-size: 14px;
 }
 
 .admin-message {
@@ -205,66 +206,59 @@ body.admin-page {
 }
 
 .empty-message {
-    padding: 20px 0;
+    padding: 15px;
     color: #78877e;
 }
 
 .order-card {
     margin-bottom: 16px;
     padding: 20px;
+    background: white;
     border: 1px solid #e6eee9;
     border-radius: 10px;
-    background: #fff;
+    overflow-wrap: anywhere;
 }
 
 .order-card h3 {
-    margin-bottom: 12px;
     color: #087e50;
 }
 
 .order-card h4 {
-    margin: 4px 0 8px;
-    font-size: 14px;
+    margin: 12px 0 8px;
     color: #26332c;
 }
 
 .order-card p {
-    margin-bottom: 7px;
+    margin: 7px 0;
     font-size: 14px;
     line-height: 1.6;
-    overflow-wrap: anywhere;
 }
 
 .order-card hr {
-    margin: 14px 0;
+    margin: 15px 0;
     border: none;
     border-top: 1px solid #e6eee9;
 }
 
-/* ---------- Verifikasi dan status ---------- */
+/* VERIFIKASI PEMBAYARAN */
 
 .admin-verification {
     margin-top: 14px;
-    padding: 14px;
+    padding: 15px;
     background: #fff8e6;
     border: 1px solid #f1e0a8;
     border-radius: 8px;
 }
 
-.admin-verification p {
-    margin-bottom: 10px;
-}
-
 .verify-button,
 .reject-button,
 .update-button {
-    padding: 10px 16px;
-    margin-right: 8px;
+    padding: 10px 15px;
+    margin: 5px 5px 5px 0;
     color: white;
     border: none;
     border-radius: 7px;
     cursor: pointer;
-    font-size: 14px;
 }
 
 .verify-button,
@@ -272,17 +266,8 @@ body.admin-page {
     background: #087e50;
 }
 
-.verify-button:hover,
-.update-button:hover {
-    background: #06663f;
-}
-
 .reject-button {
     background: #d94b4b;
-}
-
-.reject-button:hover {
-    background: #c03939;
 }
 
 .verify-button:disabled,
@@ -307,9 +292,157 @@ body.admin-page {
     border-radius: 7px;
 }
 
-/* ---------- Responsif ---------- */
+/* CHAT ADMIN */
 
-@media (max-width: 900px) {
+.chat-unread-badge {
+    padding: 7px 12px;
+    color: white;
+    background: #e85b5b;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.admin-chat-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 16px;
+    min-width: 0;
+}
+
+.chat-thread-panel,
+.admin-chat-conversation {
+    min-width: 0;
+    padding: 16px;
+    background: #fbfdfc;
+    border: 1px solid #dce9e1;
+    border-radius: 10px;
+}
+
+.chat-thread-panel h3,
+.admin-chat-conversation h3 {
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+#chatThreads {
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.chat-thread {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 12px;
+    text-align: left;
+    background: white;
+    border: 1px solid #dce9e1;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.chat-thread:hover,
+.chat-thread.active {
+    background: #e5f5eb;
+    border-color: #198754;
+}
+
+.chat-thread strong {
+    display: block;
+    color: #123d2b;
+}
+
+.chat-thread small {
+    display: block;
+    margin-top: 6px;
+    color: #68766e;
+}
+
+.chat-thread .thread-unread {
+    float: right;
+    padding: 3px 7px;
+    color: white;
+    background: #e85b5b;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+#adminChatMessages {
+    height: 350px;
+    padding: 14px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #e2ebe5;
+    border-radius: 8px;
+}
+
+.admin-chat-message {
+    width: fit-content;
+    max-width: 80%;
+    margin-bottom: 12px;
+    padding: 10px 13px;
+    border-radius: 10px;
+    overflow-wrap: anywhere;
+}
+
+.admin-chat-message p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.admin-chat-message small {
+    display: block;
+    margin-top: 6px;
+    color: #65736a;
+    font-size: 10px;
+}
+
+.chat-from-user {
+    margin-right: auto;
+    background: #eeeeee;
+}
+
+.chat-from-admin {
+    margin-left: auto;
+    background: #dcf8e7;
+}
+
+#adminChatForm {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+#adminChatForm[hidden] {
+    display: none !important;
+}
+
+#adminChatInput {
+    flex: 1;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #ccd9d0;
+    border-radius: 8px;
+}
+
+#adminChatSendButton {
+    padding: 10px 16px;
+    color: white;
+    background: #087e50;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#adminChatSendButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
     .stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -326,21 +459,20 @@ body.admin-page {
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        padding: 12px 16px;
+        padding: 12px;
     }
 
     .admin-sidebar h3 {
         display: none;
     }
 
-    .admin-sidebar .logout-button,
     .admin-sidebar #sidebarLogoutButton {
-        margin-top: 0;
         width: auto;
+        margin-top: 0;
     }
 
     .admin-main {
-        padding: 20px 16px;
+        padding: 20px 14px;
     }
 
     .admin-heading {
@@ -348,16 +480,32 @@ body.admin-page {
     }
 
     .admin-navbar {
-        padding: 0 16px;
+        padding: 0 15px;
     }
 
     #adminEmail {
         display: none;
+    }
+
+    .admin-chat-layout {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (max-width: 480px) {
     .stat-grid {
         grid-template-columns: 1fr;
+    }
+
+    .orders-section {
+        padding: 16px;
+    }
+
+    #adminChatForm {
+        flex-direction: column;
+    }
+
+    #adminChatSendButton {
+        width: 100%;
     }
 }

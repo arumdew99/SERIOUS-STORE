@@ -429,8 +429,30 @@ function updateProfileDisplay() {
     const adminLink = $("adminDashboardLink");
 
     if (adminLink) {
-        adminLink.hidden = !loggedIn || currentProfile?.role !== "admin";
+        adminLink.hidden =
+            !loggedIn || currentProfile?.role !== "admin";
     }
+
+    // Riwayat transaksi hanya untuk pelanggan.
+    const historyButton = $("historyButton");
+
+    if (historyButton) {
+        historyButton.hidden =
+            loggedIn && currentProfile?.role === "admin";
+    }
+    // Chat Admin hanya ditampilkan untuk pelanggan.
+const chatToggleButton = $("chatToggleButton");
+const chatPanel = $("chatPanel");
+
+const isAdmin = loggedIn && currentProfile?.role === "admin";
+
+if (chatToggleButton) {
+    chatToggleButton.hidden = isAdmin;
+}
+
+if (chatPanel && isAdmin) {
+    chatPanel.hidden = true;
+}
 
     if (!loggedIn) return;
 
@@ -448,7 +470,9 @@ function updateProfileDisplay() {
     $("userInitialLarge").textContent = initial;
 
     $("profileRole").textContent =
-        currentProfile?.role === "admin" ? "Administrator" : "Pelanggan";
+        currentProfile?.role === "admin"
+            ? "Administrator"
+            : "Pelanggan";
 }
 
 // =====================================================
@@ -1335,6 +1359,10 @@ $("closeReceiptBottomButton")?.addEventListener("click", () => {
 // =====================================================
 
 $("historyButton")?.addEventListener("click", async () => {
+    if (currentProfile?.role === "admin") {
+        alert("Riwayat transaksi hanya tersedia untuk pelanggan.");
+        return;
+    }
     if (!currentUser) {
         openLogin();
         alert("Login terlebih dahulu untuk melihat riwayat.");

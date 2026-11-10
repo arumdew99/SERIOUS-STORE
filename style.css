@@ -898,3 +898,86 @@ a {
     /* Sesuaikan warnanya dengan tema website Anda (misal hijau/biru) */
     color: #176b42; 
 }
+
+/* CHAT PELANGGAN */
+#chatToggleButton {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    background: #198754;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 13px 20px;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+#chatPanel {
+    position: fixed;
+    right: 22px;
+    bottom: 85px;
+    width: 330px;
+    height: 420px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px #0002;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+#chatPanel[hidden] {
+    display: none;
+}
+
+#chatPanel header {
+    background: #198754;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#chatMessages {
+    height: 300px;
+    padding: 12px;
+    overflow-y: auto;
+}
+
+#chatForm {
+    display: flex;
+    padding: 10px;
+    gap: 6px;
+}
+
+#chatInput {
+    flex: 1;
+    min-width: 0;
+    padding: 9px;
+}
+
+.chat-bubble {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    max-width: 85%;
+    overflow-wrap: anywhere;
+}
+
+.chat-user {
+    background: #dcf8e7;
+    margin-left: auto;
+}
+
+.chat-admin {
+    background: #eee;
+    margin-right: auto;
+}
+
+.chat-bubble time {
+    display: block;
+    font-size: 10px;
+    margin-top: 5px;
+    color: #666;
+}

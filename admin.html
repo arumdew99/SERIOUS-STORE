@@ -5,87 +5,169 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - SERIOUS STORE</title>
+
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./admin.css">
 </head>
+
 <body class="admin-page">
 
-<header class="admin-navbar">
-    <a href="admin.html" class="admin-logo">SERIOUS STORE</a>
+    <header class="admin-navbar">
+        <a href="admin.html" class="admin-logo">SERIOUS STORE</a>
 
-    <div class="admin-account">
-        <span id="adminEmail">Admin</span>
-        <button id="logoutButton" class="logout-button">Logout</button>
+        <div class="admin-account">
+            <span id="adminEmail">Admin</span>
+            <button id="logoutButton" class="logout-button" type="button">
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+
+        <aside class="admin-sidebar">
+            <h3>Menu Admin</h3>
+
+            <a href="#dashboard">Dashboard</a>
+            <a href="#orders">Data Pesanan</a>
+            <a href="#adminChatSection">Chat Pelanggan</a>
+            <a href="index.html">Lihat Toko</a>
+
+            <button id="sidebarLogoutButton" type="button">
+                Logout
+            </button>
+        </aside>
+
+        <main class="admin-main">
+
+            <!-- DASHBOARD DAN STATISTIK -->
+            <section id="dashboard">
+
+                <div class="admin-heading">
+                    <div>
+                        <p class="admin-subtitle">SERIOUS STORE MANAGEMENT</p>
+                        <h1>Dashboard Admin</h1>
+                        <p>Kelola pesanan dan transaksi pelanggan.</p>
+                    </div>
+
+                    <button id="refreshButton"
+                            class="refresh-button"
+                            type="button">
+                        Refresh Data
+                    </button>
+                </div>
+
+                <div class="stat-grid">
+
+                    <div class="stat-card">
+                        <p>Total Pesanan</p>
+                        <h2 id="totalOrders">0</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <p>Menunggu Verifikasi</p>
+                        <h2 id="waitingOrders">0</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <p>Pesanan Diproses</p>
+                        <h2 id="processingOrders">0</h2>
+                    </div>
+
+                    <div class="stat-card">
+                        <p>Pesanan Selesai</p>
+                        <h2 id="completedOrders">0</h2>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- DATA PESANAN -->
+            <section id="orders" class="orders-section">
+
+                <div class="orders-heading">
+                    <div>
+                        <p class="admin-subtitle">ORDER MANAGEMENT</p>
+                        <h2>Data Pesanan</h2>
+                    </div>
+                </div>
+
+                <p id="message" class="admin-message"></p>
+
+                <div id="ordersList" class="orders-list">
+                    <p>Memuat data pesanan...</p>
+                </div>
+
+            </section>
+
+            <!-- CHAT PELANGGAN -->
+            <section id="adminChatSection" class="orders-section">
+
+                <div class="orders-heading">
+                    <div>
+                        <p class="admin-subtitle">CUSTOMER SERVICE</p>
+                        <h2>Chat Pelanggan</h2>
+                        <p>Kelola pesan dan balas pertanyaan pelanggan.</p>
+                    </div>
+
+                    <span id="chatUnreadBadge"
+                          class="chat-unread-badge"
+                          hidden>
+                        0
+                    </span>
+                </div>
+
+                <div class="admin-chat-layout">
+
+                    <div class="chat-thread-panel">
+                        <h3>Daftar Percakapan</h3>
+
+                        <div id="chatThreads">
+                            <p class="empty-message">
+                                Memuat percakapan...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="admin-chat-conversation">
+
+                        <h3 id="chatConversationHeader">
+                            Pilih pelanggan
+                        </h3>
+
+                        <div id="adminChatMessages">
+                            <p class="empty-message">
+                                Pilih percakapan untuk melihat pesan.
+                            </p>
+                        </div>
+
+                        <form id="adminChatForm" hidden>
+
+                            <input
+                                type="text"
+                                id="adminChatInput"
+                                placeholder="Balas pesan pelanggan..."
+                                autocomplete="off"
+                                required
+                            >
+
+                            <button
+                                type="submit"
+                                id="adminChatSendButton">
+                                Kirim Balasan
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
-</header>
 
-<div class="admin-layout">
-
-    <aside class="admin-sidebar">
-        <h3>Menu Admin</h3>
-        <a href="#dashboard">Dashboard</a>
-        <a href="#orders">Data Pesanan</a>
-        <a href="index.html">Lihat Toko</a>
-        <button id="sidebarLogoutButton">Logout</button>
-    </aside>
-
-    <main class="admin-main">
-
-        <section id="dashboard">
-            <div class="admin-heading">
-                <div>
-                    <p class="admin-subtitle">SERIOUS STORE MANAGEMENT</p>
-                    <h1>Dashboard Admin</h1>
-                    <p>Kelola pesanan dan transaksi pelanggan.</p>
-                </div>
-
-                <button id="refreshButton" class="refresh-button">
-                    Refresh Data
-                </button>
-            </div>
-
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <p>Total Pesanan</p>
-                    <h2 id="totalOrders">0</h2>
-                </div>
-
-                <div class="stat-card">
-                    <p>Menunggu Verifikasi</p>
-                    <h2 id="waitingOrders">0</h2>
-                </div>
-
-                <div class="stat-card">
-                    <p>Pesanan Diproses</p>
-                    <h2 id="processingOrders">0</h2>
-                </div>
-
-                <div class="stat-card">
-                    <p>Pesanan Selesai</p>
-                    <h2 id="completedOrders">0</h2>
-                </div>
-            </div>
-        </section>
-
-        <section id="orders" class="orders-section">
-            <div class="orders-heading">
-                <div>
-                    <p class="admin-subtitle">ORDER MANAGEMENT</p>
-                    <h2>Data Pesanan</h2>
-                </div>
-            </div>
-
-            <p id="message" class="admin-message"></p>
-
-            <div id="ordersList" class="orders-list">
-                <p>Memuat data pesanan...</p>
-            </div>
-        </section>
-
-    </main>
-</div>
-
-<script type="module" src="./admin.js"></script>
+    <script type="module" src="./admin.js"></script>
+    <script type="module" src="./admin-chat.js"></script>
 
 </body>
 </html>

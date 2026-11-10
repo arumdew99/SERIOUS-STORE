@@ -309,6 +309,42 @@
     </div>
 </div>
 
+<!-- Tombol untuk membuka chat -->
+<button type="button" id="chatToggleButton">
+    Chat Admin
+    <span id="chatBadge" hidden>0</span>
+</button>
+
+<!-- Panel percakapan -->
+<section id="chatPanel" hidden>
+    <header>
+        <strong>Chat dengan Admin</strong>
+        <button type="button" id="chatCloseButton">×</button>
+    </header>
+
+    <div id="chatMessages">
+        <p class="chat-empty">
+            Silakan login untuk chat dengan admin.
+        </p>
+    </div>
+
+    <form id="chatForm">
+        <input
+            type="text"
+            id="chatInput"
+            placeholder="Tulis pesan..."
+            autocomplete="off"
+            required
+        >
+
+        <button type="submit" id="chatSendButton">
+            Kirim
+        </button>
+    </form>
+</section>
+
+<!-- JavaScript chat pelanggan -->
+<script type="module" src="./chat.js"></script>
 <script type="module" src="./app.js"></script>
 
 </body>

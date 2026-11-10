@@ -1,7 +1,8 @@
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient("https://uuztcgziqbeabgurwqtn.supabase.co", "sb_publishable_7wTjieqF-m0ZHYlzQXjMfw_8R6mQw8S");
 
 const $ = (id) => document.getElementById(id);
 
@@ -40,6 +41,10 @@ const refundLabels = {
     rejected: "Ditolak"
 };
 
+/* =========================================
+   LOGOUT
+========================================= */
+
 async function logout() {
     const { error } = await supabase.auth.signOut();
 
@@ -53,6 +58,10 @@ async function logout() {
 
 $("logoutButton")?.addEventListener("click", logout);
 $("sidebarLogoutButton")?.addEventListener("click", logout);
+
+/* =========================================
+   CEK AKSES ADMIN
+========================================= */
 
 async function checkAdmin() {
     const { data, error } = await supabase.auth.getSession();
@@ -77,11 +86,56 @@ async function checkAdmin() {
     }
 
     $("adminEmail").textContent = user.email;
+
     return true;
 }
 
+/* =========================================
+   STATISTIK DASHBOARD
+========================================= */
+
+function updateStatistics(orders) {
+    const list = orders || [];
+
+    const waiting = list.filter(order => {
+        const paymentStatus = String(order.payment_status || "").toLowerCase();
+        const orderStatus = String(order.status || "").toLowerCase();
+
+        return [
+            "waiting_verification",
+            "menunggu_verifikasi"
+        ].includes(paymentStatus) ||
+        orderStatus === "menunggu_verifikasi";
+    });
+
+    const processing = list.filter(order => {
+        const status = String(order.status || "").toLowerCase();
+
+        return [
+            "diproses",
+            "qc",
+            "packing",
+            "dikirim"
+        ].includes(status);
+    });
+
+    const completed = list.filter(order =>
+        String(order.status || "").toLowerCase() === "selesai"
+    );
+
+    $("totalOrders").textContent = list.length;
+    $("waitingOrders").textContent = waiting.length;
+    $("processingOrders").textContent = processing.length;
+    $("completedOrders").textContent = completed.length;
+}
+
+/* =========================================
+   MEMUAT DATA PESANAN
+========================================= */
+
 async function loadOrders() {
     $("message").textContent = "Memuat data pesanan...";
+    $("ordersList").innerHTML = "<p>Memuat data pesanan...</p>";
 
     const { data: orders, error } = await supabase
         .from("orders")
@@ -113,28 +167,19 @@ async function loadOrders() {
         .order("created_at", { ascending: false });
 
     if (error) {
-        $("message").textContent = "Gagal memuat pesanan: " + error.message;
-        console.error(error);
+        $("message").textContent =
+            "Gagal memuat pesanan: " + error.message;
+
+        $("ordersList").innerHTML =
+            '<p class="empty-message">Data pesanan gagal dimuat.</p>';
+
+        console.error("Load orders error:", error);
         return;
     }
 
     const list = orders || [];
 
-    $("totalOrders").textContent = list.length;
-
-    $("waitingOrders").textContent = list.filter(order =>
-        ["waiting_verification", "menunggu_verifikasi"].includes(
-            order.payment_status
-        )
-    ).length;
-
-    $("processingOrders").textContent = list.filter(order =>
-        ["diproses", "qc", "packing", "dikirim"].includes(order.status)
-    ).length;
-
-    $("completedOrders").textContent = list.filter(
-        order => order.status === "selesai"
-    ).length;
+    updateStatistics(list);
 
     $("message").textContent = "";
 
@@ -149,7 +194,7 @@ async function loadOrders() {
             <p>
                 ${escapeHTML(item.products?.name || "Produk")}
                 ${item.size ? "- Ukuran " + escapeHTML(item.size) : ""}
-                - ${item.quantity} buah
+                - ${Number(item.quantity) || 0} buah
                 - ${rupiah(Number(item.price) * Number(item.quantity))}
             </p>
         `).join("");
@@ -160,39 +205,57 @@ async function loadOrders() {
             order.shipping_postal_code
         ].filter(Boolean).join(", ");
 
+        const paymentStatus = String(order.payment_status || "").toLowerCase();
+
         const needsVerification = [
             "waiting_verification",
             "menunggu_verifikasi"
-        ].includes(order.payment_status);
+        ].includes(paymentStatus) ||
+        String(order.status || "").toLowerCase() === "menunggu_verifikasi";
 
         const canUpdateStatus =
-            order.payment_status === "verified" &&
-            !["selesai", "kedaluwarsa", "dibatalkan"].includes(order.status);
+            paymentStatus === "verified" &&
+            ![
+                "selesai",
+                "kedaluwarsa",
+                "dibatalkan"
+            ].includes(String(order.status || "").toLowerCase());
 
         const hasRefund =
-            order.refund_status && order.refund_status !== "none";
+            order.refund_status &&
+            order.refund_status !== "none";
 
         const refundPending = order.refund_status === "requested";
 
+        const statusOptions = [
+            ["diproses", "Diproses"],
+            ["qc", "Quality Control"],
+            ["packing", "Packing"],
+            ["dikirim", "Dikirim"],
+            ["selesai", "Selesai"]
+        ];
+
         return `
             <article class="order-card">
-                <h3>Pesanan #${order.id}</h3>
 
-                <p><b>Nomor Struk:</b>
+                <h3>Pesanan #${escapeHTML(order.id)}</h3>
+
+                <p>
+                    <b>Nomor Struk:</b>
                     ${escapeHTML(order.receipt_number || "-")}
                 </p>
 
-                <p><b>ID Pemesan:</b>
-                    ${escapeHTML(order.user_id)}
-                </p>
-
-                <p><b>Tanggal:</b>
-                    ${escapeHTML(new Date(order.created_at).toLocaleString("id-ID"))}
+                <p>
+                    <b>Tanggal:</b>
+                    ${escapeHTML(
+                        new Date(order.created_at).toLocaleString("id-ID")
+                    )}
                 </p>
 
                 <hr>
 
                 <h4>Detail Produk</h4>
+
                 ${items || "<p>Tidak ada detail produk.</p>"}
 
                 <p><b>Total:</b> ${rupiah(order.total)}</p>
@@ -200,34 +263,70 @@ async function loadOrders() {
                 <hr>
 
                 <h4>Alamat Pengiriman</h4>
-                <p><b>Penerima:</b> ${escapeHTML(order.shipping_name || "-")}</p>
-                <p><b>No. HP:</b> ${escapeHTML(order.shipping_phone || "-")}</p>
-                <p><b>Alamat:</b> ${escapeHTML(shipping || "Belum diisi")}</p>
-                <p><b>Catatan:</b> ${escapeHTML(order.shipping_notes || "-")}</p>
+
+                <p>
+                    <b>Penerima:</b>
+                    ${escapeHTML(order.shipping_name || "-")}
+                </p>
+
+                <p>
+                    <b>No. HP:</b>
+                    ${escapeHTML(order.shipping_phone || "-")}
+                </p>
+
+                <p>
+                    <b>Alamat:</b>
+                    ${escapeHTML(shipping || "Belum diisi")}
+                </p>
+
+                <p>
+                    <b>Catatan:</b>
+                    ${escapeHTML(order.shipping_notes || "-")}
+                </p>
 
                 <hr>
 
                 <h4>Pembayaran</h4>
-                <p><b>Metode:</b> ${escapeHTML(order.payment_method || "-")}</p>
-                <p><b>Referensi:</b> ${escapeHTML(order.payment_reference || "-")}</p>
-                <p><b>Status Pembayaran:</b> ${escapeHTML(order.payment_status || "-")}</p>
-                <p><b>Status Pesanan:</b>
-                    ${escapeHTML(statusLabels[order.status] || order.status)}
+
+                <p>
+                    <b>Metode:</b>
+                    ${escapeHTML(order.payment_method || "-")}
+                </p>
+
+                <p>
+                    <b>Referensi:</b>
+                    ${escapeHTML(order.payment_reference || "-")}
+                </p>
+
+                <p>
+                    <b>Status Pembayaran:</b>
+                    ${escapeHTML(order.payment_status || "-")}
+                </p>
+
+                <p>
+                    <b>Status Pesanan:</b>
+                    ${escapeHTML(
+                        statusLabels[order.status] || order.status || "-"
+                    )}
                 </p>
 
                 ${
                     needsVerification ? `
                         <div class="admin-verification">
-                            <p>Periksa pembayaran pelanggan sebelum menyetujui.</p>
+                            <p>
+                                Periksa pembayaran pelanggan sebelum menyetujui.
+                            </p>
 
-                            <button class="verify-button"
-                                data-verify="${order.id}"
+                            <button
+                                class="verify-button"
+                                data-verify="${escapeHTML(order.id)}"
                                 data-approved="true">
                                 Verifikasi Pembayaran
                             </button>
 
-                            <button class="reject-button"
-                                data-verify="${order.id}"
+                            <button
+                                class="reject-button"
+                                data-verify="${escapeHTML(order.id)}"
                                 data-approved="false">
                                 Tolak Pembayaran
                             </button>
@@ -238,18 +337,23 @@ async function loadOrders() {
                 ${
                     canUpdateStatus ? `
                         <div class="order-status">
-                            <select id="status-${order.id}">
-                                <option value="diproses">Diproses</option>
-                                <option value="qc">Quality Control</option>
-                                <option value="packing">Packing</option>
-                                <option value="dikirim">Dikirim</option>
-                                <option value="selesai">Selesai</option>
+
+                            <select id="status-${escapeHTML(order.id)}">
+                                ${statusOptions.map(([value, label]) => `
+                                    <option
+                                        value="${value}"
+                                        ${order.status === value ? "selected" : ""}>
+                                        ${label}
+                                    </option>
+                                `).join("")}
                             </select>
 
-                            <button class="update-button"
-                                data-update="${order.id}">
+                            <button
+                                class="update-button"
+                                data-update="${escapeHTML(order.id)}">
                                 Update Status
                             </button>
+
                         </div>
                     ` : ""
                 }
@@ -257,49 +361,76 @@ async function loadOrders() {
                 ${
                     hasRefund ? `
                         <hr>
+
                         <h4>Pengajuan Refund</h4>
-                        <p><b>Status:</b>
-                            <span class="refund-badge refund-${escapeHTML(order.refund_status)}">
-                                ${escapeHTML(refundLabels[order.refund_status] || order.refund_status)}
-                            </span>
+
+                        <p>
+                            <b>Status:</b>
+                            ${escapeHTML(
+                                refundLabels[order.refund_status] ||
+                                order.refund_status
+                            )}
                         </p>
-                        <p><b>Alasan:</b> ${escapeHTML(order.refund_reason || "-")}</p>
+
+                        <p>
+                            <b>Alasan:</b>
+                            ${escapeHTML(order.refund_reason || "-")}
+                        </p>
                     ` : ""
                 }
 
                 ${
                     refundPending ? `
                         <div class="admin-verification">
-                            <p>Pelanggan mengajukan refund. Setujui untuk membatalkan pesanan dan mengembalikan stok.</p>
 
-                            <button class="verify-button"
-                                data-refund-admin="${order.id}"
+                            <p>
+                                Pelanggan mengajukan refund.
+                                Periksa pengajuan sebelum mengambil keputusan.
+                            </p>
+
+                            <button
+                                class="verify-button"
+                                data-refund-admin="${escapeHTML(order.id)}"
                                 data-approved="true">
                                 Setujui Refund
                             </button>
 
-                            <button class="reject-button"
-                                data-refund-admin="${order.id}"
+                            <button
+                                class="reject-button"
+                                data-refund-admin="${escapeHTML(order.id)}"
                                 data-approved="false">
                                 Tolak Refund
                             </button>
+
                         </div>
                     ` : ""
                 }
+
             </article>
         `;
     }).join("");
 
+    attachOrderActions();
+}
+
+/* =========================================
+   AKSI VERIFIKASI PEMBAYARAN
+========================================= */
+
+function attachOrderActions() {
+
     document.querySelectorAll("[data-verify]").forEach(button => {
         button.addEventListener("click", async () => {
-            const orderId = Number(button.dataset.verify);
+            const orderId = button.dataset.verify;
             const approved = button.dataset.approved === "true";
 
-            if (!confirm(
+            const confirmation = confirm(
                 approved
                     ? "Setujui pembayaran pesanan ini?"
                     : "Tolak pembayaran pesanan ini?"
-            )) return;
+            );
+
+            if (!confirmation) return;
 
             button.disabled = true;
 
@@ -318,20 +449,27 @@ async function loadOrders() {
             }
 
             alert(data?.message || "Pembayaran berhasil diproses.");
+
             await loadOrders();
         });
     });
 
+    /* =====================================
+       AKSI REFUND
+    ===================================== */
+
     document.querySelectorAll("[data-refund-admin]").forEach(button => {
         button.addEventListener("click", async () => {
-            const orderId = Number(button.dataset.refundAdmin);
+            const orderId = button.dataset.refundAdmin;
             const approved = button.dataset.approved === "true";
 
-            if (!confirm(
+            const confirmation = confirm(
                 approved
-                    ? "Setujui refund? Pesanan akan dibatalkan dan stok dikembalikan."
+                    ? "Setujui refund pesanan ini?"
                     : "Tolak pengajuan refund ini?"
-            )) return;
+            );
+
+            if (!confirmation) return;
 
             button.disabled = true;
 
@@ -350,14 +488,23 @@ async function loadOrders() {
             }
 
             alert(data?.message || "Refund berhasil diproses.");
+
             await loadOrders();
         });
     });
 
+    /* =====================================
+       UPDATE STATUS PESANAN
+    ===================================== */
+
     document.querySelectorAll("[data-update]").forEach(button => {
         button.addEventListener("click", async () => {
-            const orderId = Number(button.dataset.update);
-            const status = $(`status-${orderId}`).value;
+            const orderId = button.dataset.update;
+            const select = $("status-" + orderId);
+
+            if (!select) return;
+
+            const status = select.value;
 
             button.disabled = true;
 
@@ -376,12 +523,21 @@ async function loadOrders() {
             }
 
             alert(data?.message || "Status berhasil diperbarui.");
+
             await loadOrders();
         });
     });
 }
 
+/* =========================================
+   REFRESH DASHBOARD
+========================================= */
+
 $("refreshButton")?.addEventListener("click", loadOrders);
+
+/* =========================================
+   JALANKAN DASHBOARD
+========================================= */
 
 const authorized = await checkAdmin();
 
